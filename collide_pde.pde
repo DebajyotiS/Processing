@@ -1,13 +1,13 @@
-particle[] elec = new particle[3];
-//PrintWriter hist;
+particle[] elec = new particle[10];
+
 boolean record = false;
 
 void setup(){
   float x=0,y=0;
   int i,j;
-  float diam = 30;
+  float diam = 20;
 
-  size(300,300);
+  size(400,400);
   
   //Initialising the particle objects
   for (int k = 0; k < elec.length; k++){
@@ -23,14 +23,15 @@ void setup(){
      
      for (  j = 0; j < elec.length; j ++){
 
-       if (dist(x,y,elec[j].getX(),elec[j].getY()) < 2*diam){
+       if (dist(x,y,elec[j].getX(),elec[j].getY()) <= diam){
          x = random(width/10, width/1.2);
          y = random(height/10, height/1.2);
          j = -1;
        }
      }
   }
-    elec[i] = new particle(x,y,diam,random(-2,2),random(-2,2),1,1);
+    
+    elec[i] = new particle(x,y,diam,1,1,1,2);
     
     
   }
@@ -51,7 +52,7 @@ void draw(){
       fill(0,255,0);
     }
     
-    ellipse(width/1.01, height/1.01,3,3);
+    ellipse(width/1.01, height/1.01,5,5);
   }
 
 }
