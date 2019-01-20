@@ -54,6 +54,7 @@ public class particle{
     this.dely = dely;
     this.decay = decay;
     this.mass = mass;
+    
   }
   
   //Mutators for size, x velocity y velocity and velocity vector
@@ -108,25 +109,31 @@ public class particle{
   
   //Functionality. Moving around, Bouncing off of walls, and basic display updates
   public void move(){
-    xpos += delx;
-    ypos += dely;
+    this.xpos += this.delx;
+    this.ypos += this.dely;
   }
 
   public void bounce(){
-    if((getY() + getsize()/2.0) > height+1 || (getY() -getsize()/2.0) <0+1){
-      setDY(getDY()*-(this.decay));
+
+    if( this.xpos - this.size/2.0 < 0 ) {
+        this.setDX( Math.abs(this.getDX()) );
+    } else if( this.xpos + this.size/2.0 > width ) {
+        this.setDX( -Math.abs(this.getDX()) );
     }
-    if((getX() + getsize()/2.0) > width+1 || (getX() -getsize()/2.0) <0+1){
-       setDX(getDX()*-(this.decay));
+
+    if( this.ypos - this.size/2.0 < 0 ) {
+        this.setDY( Math.abs(this.getDY()) );
+    } else if( this.ypos + this.size/2.0 > height ) {
+        this.setDY( -Math.abs(this.getDY()) );
     }
-  }
+}
   
   public void update(particle[] elec){
     
     for(int i =0; i< elec.length; i++){
       
       if(this == elec[i]) continue;
-      if(dist(getX(),getY(),elec[i].getX(),elec[i].getY()) - getsize() <0){
+      if(dist(this.getX(),this.getY(),elec[i].getX(),elec[i].getY()) - this.getsize() <0){
         collision(this, elec[i]);
         //println(dist(this.getX(),this.getY(),elec[i].getX(),elec[i].getY()) - this.getsize()/2);
       }
@@ -135,8 +142,8 @@ public class particle{
   }
   
   public void display(){
-    stroke(119,255,0);
-    fill(119,255,0);   
+    stroke(255);
+    noFill();   
     ellipse(this.xpos, this.ypos, this.size ,this.size);
   }
 }
@@ -164,7 +171,7 @@ void collision(particle p1, particle p2){
   //Check for accidental overlaps of particles
   if(xveldiff*xdist + yveldiff*ydist >= 0){
     
-    float angle = -atan2(p2.getY() - p1.getY(), p2.getX() - p1.getY());
+    float angle = -atan2(p2.getY() - p1.getY(), p2.getX() - p1.getX());
     
     float m1 = p1.getmass();
     float m2 = p2.getmass();
