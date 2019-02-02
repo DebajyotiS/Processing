@@ -1,13 +1,13 @@
-particle[] elec = new particle[10];
-
-boolean record = false;
+particle[] elec = new particle[1000];
 
 void setup(){
+  
   float x=0,y=0;
   int i,j;
-  float diam = 20;
+  int diam = 8;
+  
 
-  size(400,400);
+  size(1080,600);
   
   //Initialising the particle objects
   for (int k = 0; k < elec.length; k++){
@@ -30,40 +30,26 @@ void setup(){
        }
      }
   }
-    
-    elec[i] = new particle(x,y,diam,1,1,1,2);
-    
-    
+      
+        elec[i] = new particle(x,y,diam,4,4,1);
+   
   }
-  
 
 }
 void draw(){
-  background(0);
+  background(255);
   
   for (int i = 0; i < elec.length; i++){
     elec[i].update(elec);
     elec[i].move();
     elec[i].bounce();
-    if(record){
-      saveFrame("collide_#####.png");
-      fill(255,0,0);
-    } else {
-      fill(0,255,0);
-    }
-    
-    ellipse(width/1.01, height/1.01,5,5);
+   
   }
-
+  
 }
 
-void keyPressed(){
-  if (key =='r' || key =='R'){
-    record = !record;
-  }
-}
 
-//float getdistance(float x, float y, float x1, float y1){
-//  return pow(pow((x-x1),2)+pow((y-y1),2),0.5);
-//}
+  
+
+
   

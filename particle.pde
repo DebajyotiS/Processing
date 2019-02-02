@@ -37,7 +37,8 @@ public class velocity{
 
 public class particle{
   
-  private float xpos , ypos, delx , dely,size, decay, mass;
+  private float xpos , ypos, delx , dely,size, mass;
+  private color colour = color(0,0,0);
   
   //constructor 1
   public particle(float x, float y){
@@ -46,14 +47,14 @@ public class particle{
   }
   
   //constructor 2
-  public particle(float xpos, float ypos, float size, float delx, float dely,float decay, float mass){
+  public particle(float xpos, float ypos, float size, float delx, float dely, float mass){
     this.xpos = xpos;
     this.ypos = ypos;
     this.size = size;
     this.delx = delx;
     this.dely = dely;
-    this.decay = decay;
     this.mass = mass;
+    
     
   }
   
@@ -114,17 +115,17 @@ public class particle{
   }
 
   public void bounce(){
-
+    float decay = 1.1;
     if( this.xpos - this.size/2.0 < 0 ) {
-        this.setDX( Math.abs(this.getDX()) );
+        this.setDX( Math.abs(this.getDX())/decay );
     } else if( this.xpos + this.size/2.0 > width ) {
-        this.setDX( -Math.abs(this.getDX()) );
+        this.setDX( -Math.abs(this.getDX())/decay );
     }
 
     if( this.ypos - this.size/2.0 < 0 ) {
-        this.setDY( Math.abs(this.getDY()) );
+        this.setDY( Math.abs(this.getDY())/decay );
     } else if( this.ypos + this.size/2.0 > height ) {
-        this.setDY( -Math.abs(this.getDY()) );
+        this.setDY( -Math.abs(this.getDY())/decay );
     }
 }
   
@@ -141,11 +142,34 @@ public class particle{
     display();
   }
   
-  public void display(){
-    stroke(255);
-    noFill();   
-    ellipse(this.xpos, this.ypos, this.size ,this.size);
+  public void switchcolour() {
+    if(red(this.colour) == 0) {
+      this.colour = color(255,0,0);
+    }
+    else {
+      this.colour = color(0);
+    }
   }
+  
+  public void display(){
+
+    float v = sqrt(pow(this.getDX(),2)+pow(this.getDY(),2)) / 15.0;
+
+    noStroke();
+    SetFillFromHUE( v * 2.0/3.0); 
+    ellipse(this.xpos, this.ypos, this.size ,this.size);
+}
+  public void SetFillFromHUE(float hue) {
+
+    float R = Math.abs(hue * 6.0 - 3.0) - 1.0;
+    float G = 2.0 - Math.abs(hue * 6.0 - 2.0);
+    float B = 2.0 - Math.abs(hue * 6.0 - 4.0);
+    fill(R*255.0, G*255.0, B*255.0); 
+}
+  
+  
+  
+     
 }
 
 
